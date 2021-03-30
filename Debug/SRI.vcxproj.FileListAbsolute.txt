@@ -1,0 +1,6 @@
+C:\Users\yanbw\source\repos\SRI\Debug\SRI.exe
+C:\Users\yanbw\source\repos\SRI\Debug\SRI.pdb
+C:\Users\yanbw\source\repos\presapredador\Debug\SRI.exe
+C:\Users\yanbw\source\repos\presapredador\Debug\SRI.pdb
+C:\Users\yanbw\source\repos\wan\Debug\SRI.exe
+C:\Users\yanbw\source\repos\wan\Debug\SRI.pdb

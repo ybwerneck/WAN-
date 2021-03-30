@@ -1,0 +1,3 @@
+﻿  SRI.cpp
+C:\Users\yanbw\source\repos\wan\SRI.cpp(20,9): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  SRI.vcxproj -> C:\Users\yanbw\source\repos\wan\Debug\SRI.exe

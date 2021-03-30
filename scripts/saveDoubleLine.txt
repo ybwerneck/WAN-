@@ -1,0 +1,17 @@
+reset
+set terminal png 
+set output sprintf("%s",endf)
+stats sprintf("%s",end) using 3:1 name "a"
+stats sprintf("%s",end) using 3:2 name "b"
+
+set title sprintf("Evolução de %s e %s no tempo",n1,n2)
+set xlabel "Número de Integrações"
+set ylabel "S e I"
+if(a_max_y>b_max_y){
+set yrange [0.00:a_max_y*1.1]}
+else {
+set yrange [0.00:b_max_y*1.1]}
+plot sprintf("%s",end) using 3:1 with lines title sprintf("%s",n1) , \
+sprintf("%s",end) using 3:2 with lines title sprintf("%s",n2)
+
+ 

@@ -1,0 +1,2 @@
+Guarda arquivos de dados gerados .txt em data
+Guarda resultados em result

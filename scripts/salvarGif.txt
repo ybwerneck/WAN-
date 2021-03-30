@@ -1,0 +1,19 @@
+reset
+set terminal gif animate delay 0
+set output sprintf("%s",endr)
+ stats sprintf("%s",endf)
+stats sprintf("%s",endf) matrix
+set zr [0.000:STATS_max] 
+set format cb "%3.3f"
+set cbrange[0.000:STATS_max]
+set palette defined ( 0.000"#FFFFFF", STATS_max "#FF0000")
+set size 0.9,0.9
+stats sprintf("%s",endf)
+
+  do for [i=0:STATS_blocks-1] {   
+  unset label
+ set label front sprintf("dt= %.2f dx=%.2f t=%d",dt,dx,i*tick) at graph 0.1, graph 0.9 font ",15" 
+ set pm3d map  
+	splot sprintf("%s",endf) matrix index i palette with pm3d,
+}
+ 

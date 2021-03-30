@@ -1,0 +1,4 @@
+﻿  SRI.cpp
+C:\Users\yanbw\source\repos\wan\SRI.cpp(21,9): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+LINK : warning LNK4044: unrecognized option '/openmp:experimental'; ignored
+  SRI.vcxproj -> C:\Users\yanbw\source\repos\wan\x64\Debug\SRI.exe
