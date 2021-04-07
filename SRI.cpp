@@ -12,6 +12,9 @@
 #include "display.h"
 #include <omp.h>
 #include <math.h>       /* sin */
+#include <chrono>
+using namespace std::chrono_literals;
+#include <chrono>
 
 Matrix* S, * I;
 
@@ -21,11 +24,11 @@ double dt = (1.0 / 40.0), dx = 1.0 / 3.0;
 //possivel problema com long double
 int tam = L/dx;
 //--------- Parametros modelo
-long double d11 = 0.01, d22 = 0.5;
-long double R0 = 1.17 , Rd= 2.0 , v =0.15;
+long double d11 = 0.01, d22 = 0.25;
+long double R0 = 1.17 , Rd= 1.4 , v =0.15;
 long double h = 1.0 / 3.0;
-long double v0 = (v* R0* Rd - R0 + 1 - v) / (v * R0 * R0 * Rd);
-long double u0 = (R0-1)*u0;
+long double v0 = 0.01;
+long double u0 = 0.005;
 //---------
 FILE* Sarq, * Iarq, * Integralsarq, * D1arq,*Rarq;
 std::string subpasta = "resultado";
@@ -36,7 +39,7 @@ std::string filename2 = "data/I.txt";
 std::string filename3 = "data/D1.txt";
 std::string filename4 = "data/R.txt";
 
-int n = 1000000;
+int n = 200000;
 int random(int min, int max) {
     return rand() % (max + 1 - min) + min;
 
@@ -49,11 +52,10 @@ void initValues() {
     for (int i = 0; i < tam; i++){
         for (int j = 0; j < tam; j++)
         {
-            long double r1 = random(70,90)*0.01;
-            long double r2 = random(70, 90) * 0.01;
-
-            S ->operator()(i, j,r1*u0);
-            I ->operator()(i,j,r2*v0);
+            long double r1 = random(80,100)*0.01;
+            long double r2 = random(80, 100) * 0.01;
+            S ->operator()(i, j,r1*v0);
+            I ->operator()(i,j,r2*u0);
 
         }
     }
@@ -87,7 +89,9 @@ long double difussion(Matrix* ua, int x, int y, long double coef) {
 
 }
 void attD(int k) {
-    R0 = 1.10 + sin(10.0*k /(1.0*n)) * 0.3;
+
+}
+void attDr(int k) {
 }
 void step() {
 
@@ -192,23 +196,36 @@ void makeResultFiles(std::string sub) {
 
 
 }
+std::atomic<bool> report = false;
+void reporta(int * k, int parada) {
+    while (report) {
+        double o = parada == -1 ? n :parada;
+        system("cls");
+        printf("\nDT: %.10f DX:%.10f TAM= %d \n Quadro %d \ %d   completed %.2f%% \n", dt, dx, tam, n, *k, (*k/o) * 100.0);
+
+        std::this_thread::sleep_for(300ms);
+    }
+}
+int kt=0;
 int main()
 {
     initValues();
     
-    makeResultFiles("Rvariando");
-
-
-    int frames = 60; // quantos quadros terão na animação resultante, afeta muito o desempenho do gnuplot 
+    makeResultFiles("inicialfixo14");
+    report = true;
+    int frames = 100; // quantos quadros terão na animação resultante, afeta muito o desempenho do gnuplot 
 
     double tick = (1.0 /frames) * n;
     int parada = -1;
+    std::thread printer = std::thread(reporta, &kt, parada);
+
     for (int i = 0; i < n; i++) {
         
         //passo no tempo
         step();
         attD(i);
-
+        attDr(i);
+        kt = i;
 
         //rotinas de impressão no arquivo 
         fprintf(D1arq, "%f %f %f \n", d11,d22, i);
@@ -237,14 +254,14 @@ int main()
 
     }
 
-
+    report = false;
     fclose(D1arq);
     fclose(Sarq);
     fclose(Iarq);
     fclose(Integralsarq);  
 
 
-    
+    printer.join(); 
     if (parada == -1) {
         saveGif((char*) filename.c_str(), (char*)(subpasta + "/result/S.gif").c_str(), dx, dt, tick);
         saveGif((char*) filename2.c_str(), (char*)(subpasta + "/result/I.gif").c_str(), dx, dt, tick);
