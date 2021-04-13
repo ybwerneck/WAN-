@@ -24,19 +24,20 @@ double dt = (1.0 / 40.0), dx = 1.0 / 3.0;
 //possivel problema com long double
 int tam = L/dx;
 //--------- Parametros modelo
-long double d11 = 0.01, d22 = 0.25;
+Matrix *D11 ,*D22;
 long double R0 = 1.17 , Rd= 1.4 , v =0.15;
 long double h = 1.0 / 3.0;
 long double v0 = 0.01;
 long double u0 = 0.005;
 //---------
-FILE* Sarq, * Iarq, * Integralsarq, * D1arq,*Rarq;
+FILE* Sarq, * Iarq, * Integralsarq, * D1arq,*D2arq,*Rarq;
 std::string subpasta = "resultado";
 
 std::string filename0 = "data/Int.txt";
 std::string filename = "data/S.txt";
 std::string filename2 = "data/I.txt";
 std::string filename3 = "data/D1.txt";
+std::string filename5 = "data/D2.txt";
 std::string filename4 = "data/R.txt";
 
 int n = 200000;
@@ -48,6 +49,8 @@ void initValues() {
   
     S = new Matrix(tam, tam,0);
     I = new Matrix(tam, tam, 0);
+    D11 = new Matrix(tam, tam, 0.01);
+    D22 = new Matrix(tam, tam, 0.25);
 
     for (int i = 0; i < tam; i++){
         for (int j = 0; j < tam; j++)
@@ -101,6 +104,9 @@ void step() {
         for (i = 1; i < tam - 1; i++) {
         for (j = 1; j < tam - 1; j++) {
 
+            double d11 = D11->operator()(i, j);
+            double d22 = D22->operator()(i, j);
+
             long double r1 = f(S->operator()(i, j), I->operator()(i, j));
             long double r2 = g(S->operator()(i, j), I->operator()(i, j));
             long double deltaS = (1/40.0) *(r1 + difussion(S, i, j, d11));
@@ -140,9 +146,7 @@ void printIntegrals(Matrix* S, Matrix* I, FILE* Iarq,double t){
     };
 void printCoeficients(FILE* Darq,FILE* Rarq, double t) {
 
-    fprintf(Darq, "%f %f %f", d11, d22, t);
-    fprintf(Darq, "\n");
-
+    
 
     fprintf(Rarq, "%f %f %f", R0, Rd, t);
     fprintf(Rarq, "\n");
@@ -177,6 +181,7 @@ void makeResultFiles(std::string sub) {
     filename2 = subpasta + "/" + filename2;
     filename3 = subpasta + "/" + filename3;
     filename4 = subpasta + "/" + filename4;
+    filename5 = subpasta + "/" + filename5;
 
     char param[200];
    
@@ -189,6 +194,8 @@ void makeResultFiles(std::string sub) {
     system(param);
 
     D1arq = fopen(filename3.c_str(), "w");
+    D2arq = fopen(filename5.c_str(), "w");
+
     Sarq = fopen(filename.c_str(), "w");
     Iarq = fopen(filename2.c_str(), "w");
     Integralsarq = fopen(filename0.c_str(), "w");
@@ -211,7 +218,7 @@ int main()
 {
     initValues();
     
-    makeResultFiles("inicialfixo14");
+    makeResultFiles("heterogenea");
     report = true;
     int frames = 100; // quantos quadros terão na animação resultante, afeta muito o desempenho do gnuplot 
 
@@ -228,13 +235,13 @@ int main()
         kt = i;
 
         //rotinas de impressão no arquivo 
-        fprintf(D1arq, "%f %f %f \n", d11,d22, i);
         if(i%40==0)
         printIntegrals(S, I, Integralsarq,  i);
         printCoeficients(D1arq,Rarq,i);
 
         if (parada==-1&&(i % (n/frames) == 0))
         {
+            printMatrixtoFile(D11, D22, D1arq, D2arq);
 
             printMatrixtoFile(S, I,Sarq, Iarq);
 
@@ -242,6 +249,8 @@ int main()
         {
             fprintf(Sarq, "\n\n");
             fprintf(Iarq, "\n\n");
+            fprintf(D1arq, "\n\n");
+            fprintf(D2arq, "\n\n");
          }
        }
         if (parada != -1 && i == parada)
@@ -256,6 +265,7 @@ int main()
 
     report = false;
     fclose(D1arq);
+    fclose(D2arq);
     fclose(Sarq);
     fclose(Iarq);
     fclose(Integralsarq);  
@@ -265,6 +275,9 @@ int main()
     if (parada == -1) {
         saveGif((char*) filename.c_str(), (char*)(subpasta + "/result/S.gif").c_str(), dx, dt, tick);
         saveGif((char*) filename2.c_str(), (char*)(subpasta + "/result/I.gif").c_str(), dx, dt, tick);
+        saveGif((char*)filename3.c_str(), (char*)(subpasta + "/result/D1.gif").c_str(), dx, dt, tick);
+        saveGif((char*)filename4.c_str(), (char*)(subpasta + "/result/D2.gif").c_str(), dx, dt, tick);
+
     }
     else
     {
@@ -272,7 +285,8 @@ int main()
         saveFoto((char*) filename2.c_str(), (char*)(subpasta + "/result/I.png").c_str(), dx, dt, parada);
 
     }
-    saveDl((char*)filename3.c_str(), (char*)(subpasta + "/result/Dif.png").c_str(), "d1", "d2");
+    // saveDl((char*)filename3.c_str(), (char*)(subpasta + "/result/Dif.png").c_str(), "d1", "d2");
+    
     saveDl((char*)filename0.c_str(), (char*)(subpasta + "/result/Int.png").c_str(), "S", "I");
     saveDl((char*)filename4.c_str(), (char*)(subpasta + "/result/R.png").c_str(), "R0", "Rd");
 
