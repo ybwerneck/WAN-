@@ -15,6 +15,7 @@
 #include <chrono>
 using namespace std::chrono_literals;
 #include <chrono>
+#include <cstdlib>
 
 Matrix* S, * I;
 
@@ -25,7 +26,7 @@ double dt = (1.0 / 40.0), dx = 1.0 / 3.0;
 int tam = L/dx;
 //--------- Parametros modelo
 Matrix *D11 ,*D22;
-long double R0 = 1.17 , Rd= 1.4 , v =0.15;
+long double R0 = 1.17 , Rd= 1.3 , v =0.15;
 long double h = 1.0 / 3.0;
 long double v0 = 0.01;
 long double u0 = 0.005;
@@ -49,9 +50,7 @@ void initValues() {
   
     S = new Matrix(tam, tam,0);
     I = new Matrix(tam, tam, 0);
-    D11 = new Matrix(tam, tam, 0.01);
-    D22 = new Matrix(tam, tam, 0.25);
-
+    
     for (int i = 0; i < tam; i++){
         for (int j = 0; j < tam; j++)
         {
@@ -63,6 +62,25 @@ void initValues() {
         }
     }
 
+    double centrox = tam / 2, centroy = tam / 2;
+    double maxdistancia= pow(pow(centrox - 0, 2) + pow(centroy - 0, 2), 0.5);
+
+    D11 = new Matrix(tam, tam, 0.01);
+    D22 = new Matrix(tam, tam, 0.25);
+    for (int i = 0; i < tam; i++) {
+
+        for (int j = 0; j < tam; j++)
+        {
+            double distancia = pow(pow(centrox-i,2)  + pow(centroy - j,2) ,0.5);
+            double frac = (distancia / maxdistancia);
+            //D11 ->operator()(i, j, 0.05 - pow(frac, 0.5) * 0.04);
+            // D22 ->operator()(i, j, 1.0 - pow(frac, 0.5) * 0.9);
+
+        }
+    }
+
+
+       
 
 
 }
@@ -276,7 +294,7 @@ int main()
         saveGif((char*) filename.c_str(), (char*)(subpasta + "/result/S.gif").c_str(), dx, dt, tick);
         saveGif((char*) filename2.c_str(), (char*)(subpasta + "/result/I.gif").c_str(), dx, dt, tick);
         saveGif((char*)filename3.c_str(), (char*)(subpasta + "/result/D1.gif").c_str(), dx, dt, tick);
-        saveGif((char*)filename4.c_str(), (char*)(subpasta + "/result/D2.gif").c_str(), dx, dt, tick);
+        saveGif((char*)filename5.c_str(), (char*)(subpasta + "/result/D2.gif").c_str(), dx, dt, tick);
 
     }
     else

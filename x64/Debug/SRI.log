@@ -1,15 +1,8 @@
 ﻿  SRI.cpp
-C:\Users\yanbw\source\repos\wan\SRI.cpp(25,9): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\yanbw\source\repos\wan\SRI.cpp(189,20): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
-C:\Users\yanbw\source\repos\wan\SRI.cpp(191,20): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
-C:\Users\yanbw\source\repos\wan\SRI.cpp(194,20): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
-C:\Users\yanbw\source\repos\wan\SRI.cpp(210,16): warning C4129: ' ': unrecognized character escape sequence
-C:\Users\yanbw\source\repos\wan\SRI.cpp(236,24): warning C4477: 'fprintf' : format string '%f' requires an argument of type 'double', but variadic argument 3 has type 'int'
-  display.cpp
-C:\Users\yanbw\source\repos\wan\display.cpp(27,24): warning C4477: 'sprintf' : format string '%d' requires an argument of type 'int', but variadic argument 4 has type 'double'
-C:\Users\yanbw\source\repos\wan\display.cpp(32,24): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 3 has type 'std::string'
-C:\Users\yanbw\source\repos\wan\display.cpp(32,24): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 4 has type 'std::string'
-  Generating Code...
-LINK : warning LNK4044: unrecognized option '/openmp:experimental'; ignored
+C:\Users\yanbw\source\repos\wan\SRI.cpp(26,9): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\yanbw\source\repos\wan\SRI.cpp(205,20): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
+C:\Users\yanbw\source\repos\wan\SRI.cpp(207,20): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
+C:\Users\yanbw\source\repos\wan\SRI.cpp(210,20): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
+C:\Users\yanbw\source\repos\wan\SRI.cpp(228,16): warning C4129: ' ': unrecognized character escape sequence
 LINK : warning LNK4044: unrecognized option '/openmp:experimental'; ignored
   SRI.vcxproj -> C:\Users\yanbw\source\repos\wan\x64\Debug\SRI.exe
