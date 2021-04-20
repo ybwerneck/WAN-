@@ -2,8 +2,12 @@
 C:\Users\yanbw\source\repos\wan\SRI.cpp(26,9): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
 C:\Users\yanbw\source\repos\wan\SRI.cpp(206,20): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
 C:\Users\yanbw\source\repos\wan\SRI.cpp(208,20): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
-C:\Users\yanbw\source\repos\wan\SRI.cpp(211,20): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
-C:\Users\yanbw\source\repos\wan\SRI.cpp(229,16): warning C4129: ' ': unrecognized character escape sequence
+C:\Users\yanbw\source\repos\wan\SRI.cpp(208,20): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 2 has type 'std::string'
+C:\Users\yanbw\source\repos\wan\SRI.cpp(210,20): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
+C:\Users\yanbw\source\repos\wan\SRI.cpp(210,20): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 2 has type 'std::string'
+C:\Users\yanbw\source\repos\wan\SRI.cpp(213,20): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'std::string'
+C:\Users\yanbw\source\repos\wan\SRI.cpp(213,20): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 2 has type 'std::string'
+C:\Users\yanbw\source\repos\wan\SRI.cpp(231,16): warning C4129: ' ': unrecognized character escape sequence
   Generating code
   7 of 327 functions ( 2.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation

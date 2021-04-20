@@ -32,3 +32,8 @@ void saveDl(char* end, char* endf,std::string nome1, std::string nome2) {
 	sprintf(gnuplotparam, "gnuplot  -e end=\'%s\'  -e endf=\'%s\' -e n1=\'%s\' -e n2=\'%s\'  -p  \"scripts\\saveDoubleLine.txt\" ", end, endf,nome1,nome2);
 	system(gnuplotparam);
 }
+void saveTl(char* end, char* endf, std::string nome1, std::string nome2,std::string nome3) {
+	char gnuplotparam[200];
+	sprintf(gnuplotparam, "gnuplot  -e end=\'%s\'  -e endf=\'%s\' -e n1=\'%s\' -e n2=\'%s\' -e n3=\'%s\' -p  \"scripts\\saveTripleLine.txt\" ", end, endf, nome1, nome2,nome3);
+	system(gnuplotparam);
+}

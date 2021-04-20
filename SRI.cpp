@@ -26,13 +26,14 @@ double dt = (1.0 / 40.0), dx = 1.0 / 3.0;
 int tam = L/dx;
 //--------- Parametros modelo
 Matrix *D11 ,*D22;
-long double R0 = 1.17 , Rd= 1.3 , v =0.15;
+long double R0 = 1.6 , Rd= 1.10 , v =0.45;
 long double h = 1.0 / 3.0;
 long double v0 = 0.01;
-long double u0 = 0.005;
+long double u0 = 0.0005;
 //---------
 FILE* Sarq, * Iarq, * Integralsarq, * D1arq,*D2arq,*Rarq;
-std::string subpasta = "resultado";
+std::string resupasta = "resultado";
+std::string subpasta;
 
 std::string filename0 = "data/Int.txt";
 std::string filename = "data/S.txt";
@@ -41,7 +42,7 @@ std::string filename3 = "data/D1.txt";
 std::string filename5 = "data/D2.txt";
 std::string filename4 = "data/R.txt";
 
-int n = 200000;
+int n = 20000;
 int random(int min, int max) {
     return rand() % (max + 1 - min) + min;
 
@@ -94,7 +95,7 @@ long double g(long double S, long double I) {
 
    long double t=R0*((S*I)/(S+I)) - I ;    //  1.212 * ((S*X)/(S+X)) - X ,S =0.003630726111,X = 0.0007697139352
    //Problema numerico
-   return t; //t deveria ser igual a 0 de acordo com resultado da calculadora
+   return t; 
 }
 long double difussion(Matrix* ua, int x, int y, long double coef) {
 
@@ -166,7 +167,7 @@ void printCoeficients(FILE* Darq,FILE* Rarq, double t) {
 
     
 
-    fprintf(Rarq, "%f %f %f", R0, Rd, t);
+    fprintf(Rarq, "%f %f %f %f", R0, Rd,v, t);
     fprintf(Rarq, "\n");
 }; 
 void printMatrixtoFile(Matrix* S, Matrix* I,  FILE* Uarq, FILE* Varq) {
@@ -193,7 +194,7 @@ void printMatrixtoFile(Matrix* S, Matrix* I,  FILE* Uarq, FILE* Varq) {
 }
 void makeResultFiles(std::string sub) {
 
-    subpasta = sub;
+    subpasta = resupasta+"/" + sub;
     filename0 = subpasta +"/"+ filename0;
     filename = subpasta + "/" + filename;
     filename2 = subpasta + "/" + filename2;
@@ -202,13 +203,14 @@ void makeResultFiles(std::string sub) {
     filename5 = subpasta + "/" + filename5;
 
     char param[200];
-   
-    sprintf(param, "mkdir %s",subpasta);
+    sprintf(param, "mkdir %s", resupasta);
     system(param);
-    sprintf(param, "mkdir %s\\data", subpasta);
+    sprintf(param, "mkdir %s\\%s",resupasta,sub);
+    system(param);
+    sprintf(param, "mkdir %s\\%s\\data",resupasta, sub);
     system(param);
 
-    sprintf(param, "mkdir %s\\result", subpasta);
+    sprintf(param, "mkdir %s\\%s\\result",resupasta, sub);
     system(param);
 
     D1arq = fopen(filename3.c_str(), "w");
@@ -260,7 +262,6 @@ int main()
         if (parada==-1&&(i % (n/frames) == 0))
         {
             printMatrixtoFile(D11, D22, D1arq, D2arq);
-
             printMatrixtoFile(S, I,Sarq, Iarq);
 
         if (i != n - 1)
@@ -306,7 +307,7 @@ int main()
     // saveDl((char*)filename3.c_str(), (char*)(subpasta + "/result/Dif.png").c_str(), "d1", "d2");
     
     saveDl((char*)filename0.c_str(), (char*)(subpasta + "/result/Int.png").c_str(), "S", "I");
-    saveDl((char*)filename4.c_str(), (char*)(subpasta + "/result/R.png").c_str(), "R0", "Rd");
+    saveTl((char*)filename4.c_str(), (char*)(subpasta + "/result/R.png").c_str(), "R0", "Rd","V");
 
 
 }
