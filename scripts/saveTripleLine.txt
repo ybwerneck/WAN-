@@ -13,6 +13,6 @@ else {
 set yrange [0.00:b_max_y*1.1]}
 plot sprintf("%s",end) using 4:1 with lines title sprintf("%s",n1) , \
 sprintf("%s",end) using 4:2 with lines title sprintf("%s",n2) , \
-sprintf("%s",end) using 4:3 with lines title sprintf("%s",n2)
+sprintf("%s",end) using 4:3 with lines title sprintf("V")
 
  
